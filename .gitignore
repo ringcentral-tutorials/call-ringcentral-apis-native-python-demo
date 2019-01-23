@@ -1,0 +1,6 @@
+.DS_Store
+# Dependency files
+*.pyc
+*.txt
+.env-production
+.env-sandbox
