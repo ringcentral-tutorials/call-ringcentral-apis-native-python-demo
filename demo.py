@@ -5,7 +5,7 @@ rc = RingCentral()
 
 # Use call back
 def callback(response):
-    print response._content
+    print (response)
 
 def get_account_extension():
     try:
@@ -15,11 +15,11 @@ def get_account_extension():
     except Exception as e:
         print (e)
 
-def send_sms(toNumber, message):
+def send_sms(recipientNumber, message):
     try:
         endpoint = "/restapi/v1.0/account/~/extension/~/sms";
         params = {'from' : {'phoneNumber' : os.getenv("RC_USERNAME")},
-                   'to' : [{'phoneNumber' : toNumber}],
+                   'to' : [{'phoneNumber' : recipientNumber}],
                    'text' : message
                  };
         rc.post(endpoint, params, callback)
@@ -28,4 +28,4 @@ def send_sms(toNumber, message):
 
 
 get_account_extension()
-send_sms('+1XXXXXXXXXX', 'Hello World!')
+#send_sms('recipientNumber', 'Hello World!')

@@ -1,5 +1,5 @@
 ### Overview
-Authenticate and access RingCentral platform services using Python native API.
+How to authenticate and access RingCentral platform services using Python native API.
 
 ### RingCentral Platform
 RingCentral Platform is a rich RESTful API platform with more than 60 APIs for business communication includes advanced voice calls, chat messaging, SMS/MMS and Fax.
@@ -42,13 +42,9 @@ Set `ENVIRONMENT=sandbox` in the `.env` file to run in the sandbox environment.
 
 Set `ENVIRONMENT=production` in the `.env` file to run in the production environment.
 
-Authenticate and call RingCentral APIs using the RingCentral Python SDK.
 ```
 $ python demo.py
 ```
 
 ### RingCentral Developer Portal
 To setup a free developer account, click [here](https://developer/ringcentral.com)
-
-## RingCentral Python SDK
-The SDK is available at https://github.com/ringcentral/ringcentral-python
