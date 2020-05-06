@@ -32,7 +32,7 @@
 
       Let's get started by creating a file named `ringcentral.py` and import a few required libraries.
 
-  .step(data-title='Load the environment variables', data-file='../ringcentral.py' data-highlight='9-18')
+  .step(data-title='Load the environment variables', data-file='../ringcentral.py' data-highlight='8-26')
     :markdown
       ### Load the environment variables
       We read the ENVIRONMENT value from the `.env` file and load the `.env-sandbox` or `.env-production` accordingly.
@@ -44,7 +44,7 @@
 
       In your real application, you may want to keep the authentication data in a database. Or keep the file in a hidden place because it contains the access token and the refresh token!
 
-  .step(data-title='Create a reusable class', data-file='../ringcentral.py' data-highlight='20-20')
+  .step(data-title='Create a reusable class', data-file='../ringcentral.py' data-highlight='28-28')
     :markdown
       ### Create a reusable class
       To make this tutorial code reusable and extensible, we define the `RingCentral` class and implement a few utility functions.
@@ -54,7 +54,7 @@
       post()
       ```
 
-  .step(data-title='Implement authentication - 1', data-file='../ringcentral.py' data-highlight='22-34')
+  .step(data-title='Implement authentication - 1', data-file='../ringcentral.py' data-highlight='30-42')
     :markdown
       ### Implement authentication - 1
       Let's implement the `authenticate()` function to handle platform authentication.
@@ -67,7 +67,7 @@
 
       4) Define the `body` object with the `grant_type`, `username` and `password`. We encode the body for just in the case the username is an email address which has special characters.
 
-  .step(data-title='Implement authentication - 2', data-file='../ringcentral.py' data-highlight='53-69')
+  .step(data-title='Implement authentication - 2', data-file='../ringcentral.py' data-highlight='61-82')
     :markdown
       ### Implement authentication - 2
 
@@ -81,7 +81,7 @@
 
       5) Extract the `access_token` from the `jsonObj` and keep the token in the class `self.access_token` variable.
 
-  .step(data-title='Implement authentication - 3', data-file='../ringcentral.py' data-highlight='35-51')
+  .step(data-title='Implement authentication - 3', data-file='../ringcentral.py' data-highlight='44-60')
     :markdown
       ### Implement authentication - 3
 
@@ -100,7 +100,7 @@
       If the `tokens_file` does not exist, we proceed the authentication as discussed in the previous step.
 
 
-  .step(data-title='GET request implementation', data-file='../ringcentral.py' data-highlight='72-97')
+  .step(data-title='GET request implementation', data-file='../ringcentral.py' data-highlight='85-110')
     :markdown
       ### GET request implementation
       Now we implement the `get()` function to handle HTTP GET requests:
@@ -117,7 +117,7 @@
 
       6) Check the `response.status_code`. If the `status_code` is 200, return the response.
 
-  .step(data-title='POST request implementation', data-file='../ringcentral.py' data-highlight='100-125')
+  .step(data-title='POST request implementation', data-file='../ringcentral.py' data-highlight='113-138')
     :markdown
       ### POST request implementation
       Now we implement the `post()` function to handle HTTP POST requests:
