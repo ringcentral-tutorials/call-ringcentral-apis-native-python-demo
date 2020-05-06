@@ -3,19 +3,27 @@ import base64
 import urllib
 import time
 import json
-import os
-from dotenv import Dotenv
+import os, sys
 
-dotenv = Dotenv(".env")
-os.environ.update(dotenv)
-
-if os.getenv("ENVIRONMENT") == "sandbox":
-    dotenv = Dotenv("./environment/.env-sandbox")
-    tokens_file = "tokens_sb.txt"
+if sys.hexversion >= 0x3000000:
+    from dotenv import load_dotenv
+    load_dotenv()
+    if os.getenv("ENVIRONMENT") == "sandbox":
+        tokens_file = "tokens_sb.txt"
+        dotenv = load_dotenv("./environment/.env-sandbox")
+    else:
+        tokens_file = "tokens_pd.txt"
+        dotenv = load_dotenv("./environment/.env-production")
 else:
-    dotenv = Dotenv("./environment/.env-production")
-    tokens_file = "tokens_pd.txt"
-os.environ.update(dotenv)
+    from dotenv import Dotenv
+    dotenv = Dotenv(".env")
+    if os.getenv("ENVIRONMENT") == "sandbox":
+        tokens_file = "tokens_sb.txt"
+        dotenv = Dotenv("./environment/.env-sandbox")
+    else:
+        tokens_file = "tokens_pd.txt"
+        dotenv = Dotenv("./environment/.env-production")
+    os.environ.update(dotenv)
 
 class RingCentral(object):
     access_token = ""
@@ -25,13 +33,14 @@ class RingCentral(object):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
             'Accept': 'application/json',
-            'Authorization': 'Basic ' + base64.b64encode(basic),
+            'Authorization': 'Basic ' + base64.b64encode(basic.encode('utf-8')).decode('utf-8'),
             }
-        body = urllib.urlencode({
+        body = {
             'grant_type': 'password',
             'username': os.getenv("RC_USERNAME"),
             'password': os.getenv("RC_PASSWORD")
-            })
+            }
+
         if os.path.isfile(tokens_file):
             file = open(tokens_file, 'r')
             tokenObj = json.loads(file.read())
@@ -44,12 +53,16 @@ class RingCentral(object):
             else:
                 print ("access_token expired")
                 if expire_time < tokenObj['tokens']['refresh_token_expires_in']:
-                    print "refresh_token not expired"
-                    body = urllib.urlencode({
+                    print ("refresh_token not expired")
+                    body = {
                         'grant_type': 'refresh_token',
                         'refresh_token': tokenObj['tokens']['refresh_token']
-                    })
+                    }
         # authenticate
+        if sys.hexversion >= 0x3000000:
+            body = urllib.parse.urlencode(body)
+        else:
+            body = urllib.urlencode(body)
         try:
             res = requests.post(url, headers=headers, data=body)
             if res.status_code == 200:
@@ -76,7 +89,7 @@ class RingCentral(object):
             if params != None:
                 url += "?"
                 for key, value in params.items():
-    				url += "&%s=%s" % (key, value)
+                    url += "&%s=%s" % (key, value)
 
             headers = {
                 'Accept': 'application/json',
